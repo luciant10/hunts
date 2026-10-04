@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hunt</title>
+<style>
+body{font-family:system-ui,sans-serif;background:#1c1b18;color:#eee;max-width:700px;margin:auto;padding:20px;line-height:1.6}
+a{color:inherit;text-decoration:none}
+.back{opacity:.7}
+img{width:100%;border-radius:10px;margin-bottom:12px;display:block}
+</style></head><body>
+<a class="back" href="../">&larr; Back</a>
+<h1 id="t"></h1>
+<div id="story"></div>
+<div id="ph"></div>
+<script>
+const p=location.pathname.split('/').filter(Boolean);
+const pretty=s=>s.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+const title=pretty(p[1])+' - '+pretty(p[2]);
+document.getElementById('t').textContent=title;
+document.title=title;
+fetch('hunt.json').then(r=>r.json()).then(h=>{
+  (h.story||'').split(/\n+/).filter(Boolean).forEach(t=>{
+    const e=document.createElement('p');e.textContent=t;
+    document.getElementById('story').appendChild(e);
+  });
+  (h.photos||[]).forEach(f=>{
+    const i=document.createElement('img');
+    i.src=f;i.loading='lazy';
+    document.getElementById('ph').appendChild(i);
+  });
+});
+</script></body></html>
